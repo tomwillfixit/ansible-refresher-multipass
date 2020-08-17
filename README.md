@@ -80,3 +80,16 @@ PLAY RECAP *********************************************************************
 ```
 
 At this point you have installed apache on your 2 environments.  You can re-run the command and ansible will detect that apache is already installed and skip the install step.
+
+# Note
+
+After playing about with Multipass for a bit I hit an issue with being unable to start VMs based off image 20.04. To resolve this I had to remove the downloaded image and re-download it.
+
+```
+sudo ls /var/root/Library/Caches/multipassd/vault/images/focal-20200804
+ubuntu-20.04-server-cloudimg-amd64-initrd-generic	ubuntu-20.04-server-cloudimg-amd64-vmlinuz-generic	ubuntu-20.04-server-cloudimg-amd64.img
+
+bash-3.2# rm -rf /var/root/Library/Caches/multipassd/vault/images/focal-20200804
+```
+
+
