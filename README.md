@@ -2,18 +2,29 @@
 
 Using Multipass to create environments to test ansible playbooks against.
 
+# Install Multipass
+
+Instructions can be found [here](https://multipass.run/).
+
 # Install Ansible
 ```
 MacOS : brew install ansible
+
+Ubuntu : apt install ansible
 ```
 
 # Create 2 environments
+
+The following commands will start 2 VMs based on Ubuntu 20.04. Each VM will be assigned 1 Gig of Memory, 1 cpu and 5 Gig of disk.
+
 ```
 multipass launch --mem 1G --cpus 1 --disk 5G --name ansible1 20.04
 multipass launch --mem 1G --cpus 1 --disk 5G --name ansible2 20.04
+```
 
-To get the environment IP run :
+To get the IP Address of the VMs run : 
 
+```
 multipass ls
 
 ```
@@ -22,9 +33,9 @@ multipass ls
 
 Ansible uses this file by default to find the host IP and details required for the SSH connection.
 
-```
-cat /etc/ansible/hosts
+Open /etc/ansible/hosts using your favourite text editor and add : 
 
+```
 [dev]
 192.168.64.11
 192.168.64.12
@@ -41,11 +52,28 @@ Log into each environment and add the contents of your ~/.ssh/id_rsa.pub from th
 ```
 multipass shell <environment_name>
 sudo bash
-vi ~/.ssh/authorized_keys
+vim ~/.ssh/authorized_keys
 
 Append in the contents of the ~/.ssh/id_rsa.pub file from your host.
 
 ```
+
+# Setup SSH options in Ansible
+
+Before we run our first playbook there is one last step to perform. Ansible relies on SSH to connect to each environment and run commands. SSH has many options and these can be defined in the /etc/ansible/ansible.cfg file.
+
+Open /etc/ansible/ansible.cfg using your favourite text editor and add : 
+
+```
+[defaults]
+host_key_checking = False
+
+[ssh_connection]
+ssh_args = -C -o ControlMaster=auto -o ControlPersist=60s -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+
+```
+
+The ssh_args field tells Ansible which SSH options to use when connecting to an environment. 
 
 # Run a simple playbook
 
