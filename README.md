@@ -107,7 +107,22 @@ PLAY RECAP *********************************************************************
 192.168.64.12              : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 ```
 
-At this point you have installed apache on your 2 environments.  You can re-run the command and ansible will detect that apache is already installed and skip the install step.
+At this point you have installed apache on your 2 environments.  You can re-run the command and ansible will detect that apache is already installed and skip the install step. To verify apache is running, open a browser and navigate to the VM IP address and you should see the default apache2 landing page.
+
+# Bonus points
+
+To earn bonus points try editing the my_first_playbook.yml to remove apache.  Clue: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html#parameter-state
+
+A full walkthrough on how to install and configure apache can be found [here](https://www.digitalocean.com/community/tutorials/how-to-configure-apache-using-ansible-on-ubuntu-14-04).
+
+# Cleaning Up
+
+When you've finished experimenting you can delete the 2 VMs easily using :
+```
+multipass delete ansible1
+multipass delete ansible2
+multipass purge
+```
 
 # Note
 
